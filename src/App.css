@@ -1,0 +1,11 @@
+.app {
+  min-height: 100vh;
+  background: var(--cream);
+}
+
+.error-msg {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--red);
+  font-size: 1.1rem;
+}

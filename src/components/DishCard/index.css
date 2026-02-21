@@ -1,0 +1,129 @@
+.dish-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.dish-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.veg-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid;
+  border-radius: 3px;
+  margin-bottom: 8px;
+}
+
+.veg-indicator.veg {
+  border-color: var(--green);
+}
+.veg-indicator.nonveg {
+  border-color: var(--red);
+}
+
+.veg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.veg .veg-dot {
+  background: var(--green);
+}
+.nonveg .veg-dot {
+  background: var(--red);
+}
+
+.dish-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+
+.dish-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dish-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown);
+}
+
+.dish-calories {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.dish-description {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  max-width: 480px;
+}
+
+.customization-text {
+  font-size: 0.82rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.not-available {
+  font-size: 0.85rem;
+  color: var(--red);
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.dish-image-wrap {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.dish-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dish-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+
+@media (max-width: 480px) {
+  .dish-image-wrap {
+    width: 90px;
+    height: 90px;
+  }
+  .dish-name {
+    font-size: 1rem;
+  }
+}

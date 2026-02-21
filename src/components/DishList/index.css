@@ -1,0 +1,15 @@
+.dish-list {
+  padding: 24px 16px 48px;
+}
+
+.dish-list-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.empty-msg {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
