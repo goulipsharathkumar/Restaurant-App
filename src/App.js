@@ -1,80 +1,89 @@
-// eslint-disable-next-line
-import React, {useState, useEffect} from 'react'
+import {useState} from 'react'
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import Cookies from 'js-cookie'
+import CartContext from './context/CartContext'
+import Login from './components/Login'
+import Home from './components/Home'
+import Cart from './components/Cart'
 import './App.css'
-import Header from './components/Header'
-import CategoryTabs from './components/CategoryTabs'
-import DishList from './components/DishList'
-import Loader from './components/Loader'
 
-const API_URL =
-  'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details'
+const ProtectedRoute = ({component: Component, ...rest}) => {
+  const token = Cookies.get('jwt_token')
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        token !== undefined ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
+  )
+}
 
 function App() {
-  const [menuData, setMenuData] = useState([])
-  const [activeCategory, setActiveCategory] = useState(0)
-  const [cartItems, setCartItems] = useState({})
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [cartList, setCartList] = useState([])
 
-  useEffect(() => {
-    const fetchMenu = async () => {
-      try {
-        const res = await fetch(API_URL)
-        if (!res.ok) throw new Error('Failed to fetch')
-        const data = await res.json()
-        setMenuData(data)
-      } catch (err) {
-        setError('Failed to load menu. Please try again.')
-      } finally {
-        setLoading(false)
-      }
+  const removeAllCartItems = () => setCartList([])
+
+  const addCartItem = dish => {
+    const existing = cartList.find(item => item.dish_id === dish.dish_id)
+    if (existing) {
+      setCartList(prev =>
+        prev.map(item =>
+          item.dish_id === dish.dish_id
+            ? {...item, quantity: item.quantity + 1}
+            : item,
+        ),
+      )
+    } else {
+      setCartList(prev => [...prev, {...dish, quantity: 1}])
     }
-    fetchMenu()
-  }, [])
-
-  const totalCartCount = Object.values(cartItems).reduce((sum, c) => sum + c, 0)
-
-  const handleAdd = dishId => {
-    setCartItems(prev => ({...prev, [dishId]: (prev[dishId] || 0) + 1}))
   }
 
-  const handleRemove = dishId => {
-    setCartItems(prev => {
-      const current = prev[dishId] || 0
-      if (current <= 1) {
-        const updated = {...prev}
-        delete updated[dishId]
-        return updated
-      }
-      return {...prev, [dishId]: current - 1}
+  const removeCartItem = dishId => {
+    setCartList(prev => prev.filter(item => item.dish_id !== dishId))
+  }
+
+  const incrementCartItemQuantity = dishId => {
+    setCartList(prev =>
+      prev.map(item =>
+        item.dish_id === dishId ? {...item, quantity: item.quantity + 1} : item,
+      ),
+    )
+  }
+
+  const decrementCartItemQuantity = dishId => {
+    setCartList(prev => {
+      const updated = prev.map(item =>
+        item.dish_id === dishId ? {...item, quantity: item.quantity - 1} : item,
+      )
+      return updated.filter(item => item.quantity > 0)
     })
   }
 
-  const categories =
-    menuData.length > 0 ? menuData[0]?.table_menu_list || [] : []
-  const activeDishes = categories[activeCategory]?.category_dishes || []
-
   return (
-    <div className="app">
-      <Header cartCount={totalCartCount} />
-      {loading && <Loader />}
-      {error && <p className="error-msg">{error}</p>}
-      {!loading && !error && (
-        <>
-          <CategoryTabs
-            categories={categories}
-            activeCategory={activeCategory}
-            onSelectCategory={setActiveCategory}
-          />
-          <DishList
-            dishes={activeDishes}
-            cartItems={cartItems}
-            onAdd={handleAdd}
-            onRemove={handleRemove}
-          />
-        </>
-      )}
-    </div>
+    <CartContext.Provider
+      value={{
+        cartList,
+        removeAllCartItems,
+        addCartItem,
+        removeCartItem,
+        incrementCartItemQuantity,
+        decrementCartItemQuantity,
+      }}
+    >
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <ProtectedRoute exact path="/" component={Home} />
+          <ProtectedRoute exact path="/cart" component={Cart} />
+          <Redirect to="/login" />
+        </Switch>
+      </BrowserRouter>
+    </CartContext.Provider>
   )
 }
 

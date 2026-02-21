@@ -127,3 +127,28 @@
     font-size: 1rem;
   }
 }
+
+.dish-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.add-to-cart-btn {
+  padding: 7px 16px;
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+
+.add-to-cart-btn:hover {
+  background: #a93226;
+}

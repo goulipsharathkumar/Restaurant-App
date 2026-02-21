@@ -1,16 +1,38 @@
+import {useContext} from 'react'
+import {useHistory} from 'react-router-dom'
+import Cookies from 'js-cookie'
+import CartContext from '../../context/CartContext'
 import './index.css'
 
-function Header({cartCount}) {
+function Header() {
+  const {cartList} = useContext(CartContext)
+  const history = useHistory()
+  const cartCount = cartList.length
+
+  const onClickLogout = () => {
+    Cookies.remove('jwt_token')
+    history.replace('/login')
+  }
+
   return (
     <header className="header">
       <div className="header-inner">
-        <div className="header-brand">
+        <button
+          type="button"
+          className="header-brand-btn"
+          onClick={() => history.push('/')}
+        >
           <span className="header-logo">🍽</span>
           <h1 className="header-title">Taste of India</h1>
-        </div>
-        <div className="header-cart">
+        </button>
+        <div className="header-right">
           <span className="cart-label">My Orders</span>
-          <div className="cart-icon-wrap">
+          <button
+            type="button"
+            data-testid="cart"
+            className="cart-icon-btn"
+            onClick={() => history.push('/cart')}
+          >
             <svg
               className="cart-icon"
               viewBox="0 0 24 24"
@@ -23,7 +45,10 @@ function Header({cartCount}) {
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </div>
+          </button>
+          <button type="button" className="logout-btn" onClick={onClickLogout}>
+            Logout
+          </button>
         </div>
       </div>
     </header>

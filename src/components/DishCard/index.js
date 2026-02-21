@@ -1,12 +1,22 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react'
-import './index.css'
+import {useState, useContext} from 'react'
+import CartContext from '../../context/CartContext'
 import Counter from '../Counter'
+import './index.css'
 
-function DishCard({dish, count, onAdd, onRemove}) {
+function DishCard({dish}) {
+  const [count, setCount] = useState(0)
   const [imgError, setImgError] = useState(false)
+  const {addCartItem} = useContext(CartContext)
+
   const hasAddons = dish.addonCat && dish.addonCat.length > 0
   const isVeg = dish.dish_Type === 2
+
+  const onAdd = () => setCount(prev => prev + 1)
+  const onRemove = () => setCount(prev => (prev > 0 ? prev - 1 : 0))
+
+  const onAddToCart = () => {
+    addCartItem({...dish, quantity: count})
+  }
 
   return (
     <div className="dish-card">
@@ -19,16 +29,30 @@ function DishCard({dish, count, onAdd, onRemove}) {
           <span className="dish-price">
             {dish.dish_currency} {dish.dish_price}
           </span>
-          <span className="dish-calories">{dish.dish_calories} cal</span>
         </div>
         <p className="dish-description">{dish.dish_description}</p>
+        <p className="dish-calories">{dish.dish_calories} calories</p>
         {hasAddons && (
           <p className="customization-text">Customizations available</p>
         )}
         {dish.dish_Availability ? (
-          <Counter count={count} onAdd={onAdd} onRemove={onRemove} />
+          <div className="dish-actions">
+            <Counter count={count} onAdd={onAdd} onRemove={onRemove} />
+            {count > 0 && (
+              <button
+                type="button"
+                className="add-to-cart-btn"
+                onClick={onAddToCart}
+              >
+                ADD TO CART
+              </button>
+            )}
+          </div>
         ) : (
-          <p className="not-available">Not available</p>
+          <>
+            <Counter count={count} onAdd={onAdd} onRemove={onRemove} />
+            <p className="not-available">Not available</p>
+          </>
         )}
       </div>
       <div className="dish-image-wrap">
