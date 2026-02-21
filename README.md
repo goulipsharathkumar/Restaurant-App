@@ -1,43 +1,155 @@
-Develop a restaurant page, ensuring it is user-friendly and visually appealing.
+# 🍽️ Restaurant App Enhancement
 
-#### Mobile Interface
+A full-featured React restaurant ordering application with authentication, menu browsing, and cart management.
 
-<a href="https://res.cloudinary.com/dupvp9gj9/image/upload/v1688464567/Restaurant_page_movie-view_dqv1fl.png" target=_blank_>
-    <div style="text-align: center;">
-        <img src="https://res.cloudinary.com/dupvp9gj9/image/upload/v1688465518/Restaurant_page_movie-view_2_p6r4up.png" alt="restaurant-app" style="max-width:70%;box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.12)">
-    </div>
-</a>
+🔗 **Live Demo:** [https://sharurestaurant.ccbp.tech](https://sharurestaurant.ccbp.tech)
 
-<br/>
-#### Web Interface
-<a href="https://res.cloudinary.com/dupvp9gj9/image/upload/v1688464566/Restaurant_page_web-view_l7snar.png" target=_blank_ >
-    <div style="text-align: center;">
-        <img src="https://res.cloudinary.com/dupvp9gj9/image/upload/v1688464566/Restaurant_page_web-view_l7snar.png" alt="restaurant-app" style="max-width:70%;box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.12)">
-    </div>
-</a>
+---
 
-#### API:
+## 📌 Project Overview
 
-<a href="https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details" target=_blank_ >https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details</a>
+This is an enhanced version of the Restaurant App built with React. Users can log in, browse menu items by category, add dishes to the cart, and manage their cart — all with a smooth, responsive UI.
 
-#### Instructions:
+---
 
-- The API returns the dish categories and the dishes in that category.
-- The dish categories should be slidable.
-- If a dish has addons(`addoncat`), then it should display the text **“Customizations available”**.
-- Clicking on the `+` and `-` buttons should update the count accordingly and also on the cart icon on the top bar.
-- Implement maintainable and reusable coding standards.
-- The tabs must not be hardcoded, their length should change as per API.
-- Host the site in Heroku / Netlify/ any hosting.
-- Submit the git URL & site URL in the Submission form.
+## ✨ Features
 
-#### Submission Form:
+### 🔐 Login Route (`/login`)
+- Authenticate using username and password via the CCBP Login API
+- JWT token stored securely using `js-cookie`
+- Redirects authenticated users directly to the Home route
+- Displays error messages on invalid credentials
 
-<center>Click the below button and submit your git URL and site URL</center>
-<br>
-<a target=_blank_ href="https://forms.gle/NNpW1HBk7aDDaKuw6">
-  <center><button style="color: #fff; border: none; cursor: pointer; width: 218px; height: 34px; background-color: rgb(22, 101, 216); border-radius: 5.4px; box-shadow: rgb(0 0 0 / 36%) 0px 2px 4px 0px;font-family: Inter;font-size: 14px;color: rgb(255, 255, 255);font-weight: 500;letter-spacing: 0.5px;text-transform: uppercase;">
-    SUBMIT
-  </button>
-  </center>
-</a>
+### 🏠 Home Route (`/`)
+- Displays restaurant name fetched from the API
+- Browse menu items across multiple category tabs
+- Increase/decrease dish quantity using `+` / `-` buttons
+- **ADD TO CART** button appears when dish is available and quantity > 0
+- Cart icon in header shows live count of unique items
+- Logout button clears session and redirects to Login
+
+### 🛒 Cart Route (`/cart`)
+- Lists all added cart items with image, name, price, and quantity
+- `+` / `-` buttons to update quantity per item (item removed when quantity reaches 0)
+- **Remove** button to delete individual items
+- **Remove All** button to clear the entire cart
+- Shows empty cart image when cart is empty
+- Total order price calculated dynamically
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Usage |
+|---|---|
+| React 17 | UI framework |
+| React Router DOM v5 | Client-side routing |
+| React Context API | Global cart state management |
+| js-cookie | JWT token storage |
+| CSS3 | Custom styling |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── context/
+│   └── CartContext.js          # Global cart state & methods
+├── components/
+│   ├── Header/                 # Nav bar with cart icon, logout
+│   ├── Login/                  # Login form with API auth
+│   ├── Home/                   # Main menu page
+│   ├── Cart/                   # Cart page
+│   ├── CartItem/               # Individual cart item
+│   ├── DishCard/               # Individual dish card
+│   ├── DishList/               # List of dishes
+│   ├── CategoryTabs/           # Menu category tabs
+│   ├── Counter/                # +/- quantity counter
+│   └── Loader/                 # Loading spinner
+└── App.js                      # Routes + Context Provider
+```
+
+---
+
+## 🔌 API Details
+
+### Login API
+- **URL:** `https://apis.ccbp.in/login`
+- **Method:** POST
+- **Credentials:** `{ "username": "rahul", "password": "rahul@2021" }`
+
+### Restaurant Menu API
+- **URL:** `https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details`
+- **Method:** GET
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js
+- npm / pnpm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/goulipsharathkumar/Restaurant-App.git
+
+# Navigate into the project
+cd Restaurant-App
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+```
+
+App runs at `http://localhost:3000`
+
+---
+
+## 🔒 Route Protection
+
+| Route | Authenticated | Unauthenticated |
+|---|---|---|
+| `/` | ✅ Home page | ❌ Redirects to `/login` |
+| `/cart` | ✅ Cart page | ❌ Redirects to `/login` |
+| `/login` | ❌ Redirects to `/` | ✅ Login page |
+
+---
+
+## 🧠 Context API Structure
+
+```js
+CartContext = {
+  cartList,                    // Array of cart items
+  addCartItem(dish),           // Add or increment dish
+  removeCartItem(dishId),      // Remove dish completely
+  removeAllCartItems(),        // Clear entire cart
+  incrementCartItemQuantity(dishId),
+  decrementCartItemQuantity(dishId),
+}
+```
+
+---
+
+## 📸 Screenshots
+
+| Page | Description |
+|---|---|
+| Login | Clean login form with error handling |
+| Home | Tabbed menu with dish cards and cart integration |
+| Cart | Full cart management with quantity controls |
+
+---
+
+## 👨‍💻 Author
+
+**Goulip Sharath Kumar**  
+GitHub: [@goulipsharathkumar](https://github.com/goulipsharathkumar)  
+Live App: [https://sharurestaurant.ccbp.tech](https://sharurestaurant.ccbp.tech)
+
+
