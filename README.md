@@ -1,103 +1,63 @@
-# 🍽️ Restaurant App Enhancement
+# 🍽️ Restaurant Ordering Platform
 
-A full-featured React restaurant ordering application with authentication, menu browsing, and cart management.
+A full-stack MERN web application for browsing restaurant menus, managing cart, and placing orders.
 
-🔗 **Live Demo:** [https://sharurestaurant.ccbp.tech](https://sharurestaurant.ccbp.tech)
+🔗 **Live Demo:** https://sharurestaurant.ccbp.tech
+
+📌 **GitHub:** https://github.com/goulipsharathkumar/Restaurant-App
 
 ---
 
-## 📌 Project Overview
+## 🛠️ Technologies Used
 
-This is an enhanced version of the Restaurant App built with React. Users can log in, browse menu items by category, add dishes to the cart, and manage their cart — all with a smooth, responsive UI.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
 ---
 
 ## ✨ Features
 
-### 🔐 Login Route (`/login`)
-- Authenticate using username and password via the CCBP Login API
-- JWT token stored securely using `js-cookie`
-- Redirects authenticated users directly to the Home route
-- Displays error messages on invalid credentials
-
-### 🏠 Home Route (`/`)
-- Displays restaurant name fetched from the API
-- Browse menu items across multiple category tabs
-- Increase/decrease dish quantity using `+` / `-` buttons
-- **ADD TO CART** button appears when dish is available and quantity > 0
-- Cart icon in header shows live count of unique items
-- Logout button clears session and redirects to Login
-
-### 🛒 Cart Route (`/cart`)
-- Lists all added cart items with image, name, price, and quantity
-- `+` / `-` buttons to update quantity per item (item removed when quantity reaches 0)
-- **Remove** button to delete individual items
-- **Remove All** button to clear the entire cart
-- Shows empty cart image when cart is empty
-- Total order price calculated dynamically
-
----
-
-## 🛠️ Tech Stack
-
-| Technology | Usage |
-|---|---|
-| React 17 | UI framework |
-| React Router DOM v5 | Client-side routing |
-| React Context API | Global cart state management |
-| js-cookie | JWT token storage |
-| CSS3 | Custom styling |
+- 🔐 **JWT Authentication** — Secure login with cookie-based session management
+- 🏠 **Home Route** — Browse food categories with tab navigation
+- 🛒 **Cart Management** — Add, remove, increment, decrement items with real-time total
+- 🌐 **Context API** — Global cart state management across all components
+- 📱 **Fully Responsive** — Works on mobile, tablet, and desktop
+- 🔒 **Protected Routes** — Unauthenticated users redirected to login
+- 🔄 **REST APIs** — Integrated using Axios for data exchange
 
 ---
 
 ## 📁 Project Structure
 
 ```
-src/
-├── context/
-│   └── CartContext.js          # Global cart state & methods
-├── components/
-│   ├── Header/                 # Nav bar with cart icon, logout
-│   ├── Login/                  # Login form with API auth
-│   ├── Home/                   # Main menu page
-│   ├── Cart/                   # Cart page
-│   ├── CartItem/               # Individual cart item
-│   ├── DishCard/               # Individual dish card
-│   ├── DishList/               # List of dishes
-│   ├── CategoryTabs/           # Menu category tabs
-│   ├── Counter/                # +/- quantity counter
-│   └── Loader/                 # Loading spinner
-└── App.js                      # Routes + Context Provider
+Restaurant-App/
+├── src/
+│   ├── components/
+│   │   ├── Header/
+│   │   ├── DishCard/
+│   │   ├── CartItem/
+│   │   ├── Counter/
+│   │   └── CategoryTabs/
+│   ├── context/
+│   │   └── CartContext.js
+│   ├── App.js
+│   └── index.js
+├── public/
+└── package.json
 ```
 
 ---
 
-## 🔌 API Details
-
-### Login API
-- **URL:** `https://apis.ccbp.in/login`
-- **Method:** POST
-- **Credentials:** `{ "username": "rahul", "password": "rahul@2021" }`
-
-### Restaurant Menu API
-- **URL:** `https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details`
-- **Method:** GET
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js
-- npm / pnpm
-
-### Installation
+## 🚀 How to Run Locally
 
 ```bash
 # Clone the repository
 git clone https://github.com/goulipsharathkumar/Restaurant-App.git
 
-# Navigate into the project
+# Navigate to project folder
 cd Restaurant-App
 
 # Install dependencies
@@ -107,49 +67,23 @@ npm install
 npm start
 ```
 
-App runs at `http://localhost:3000`
-
----
-
-## 🔒 Route Protection
-
-| Route | Authenticated | Unauthenticated |
-|---|---|---|
-| `/` | ✅ Home page | ❌ Redirects to `/login` |
-| `/cart` | ✅ Cart page | ❌ Redirects to `/login` |
-| `/login` | ❌ Redirects to `/` | ✅ Login page |
-
----
-
-## 🧠 Context API Structure
-
-```js
-CartContext = {
-  cartList,                    // Array of cart items
-  addCartItem(dish),           // Add or increment dish
-  removeCartItem(dishId),      // Remove dish completely
-  removeAllCartItems(),        // Clear entire cart
-  incrementCartItemQuantity(dishId),
-  decrementCartItemQuantity(dishId),
-}
-```
+Open http://localhost:3000 in your browser.
 
 ---
 
 ## 📸 Screenshots
 
-| Page | Description |
-|---|---|
-| Login | Clean login form with error handling |
-| Home | Tabbed menu with dish cards and cart integration |
-| Cart | Full cart management with quantity controls |
+> Live Demo: https://sharurestaurant.ccbp.tech
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Developer
 
-**Goulip Sharath Kumar**  
-GitHub: [@goulipsharathkumar](https://github.com/goulipsharathkumar)  
-Live App: [https://sharurestaurant.ccbp.tech](https://sharurestaurant.ccbp.tech)
+**Gouli P. Sharath Kumar**
+- 📧 Email: sharathgouli20@gmail.com
+- 💼 LinkedIn: [linkedin.com/in/gouli-p-sharath-kumar-0794552b1](https://www.linkedin.com/in/gouli-p-sharath-kumar-0794552b1/)
+- 🐙 GitHub: [github.com/goulipsharathkumar](https://github.com/goulipsharathkumar)
 
+---
 
+⭐ **If you like this project, please give it a star!**
